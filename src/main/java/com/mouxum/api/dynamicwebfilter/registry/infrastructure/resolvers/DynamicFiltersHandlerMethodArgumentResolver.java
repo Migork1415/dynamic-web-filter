@@ -1,5 +1,6 @@
 package com.mouxum.api.dynamicwebfilter.registry.infrastructure.resolvers;
 
+import com.mouxum.api.dynamicwebfilter.DynamicWebFilterProperties.WebDelimiter;
 import com.mouxum.api.dynamicwebfilter.registry.DictionaryRegistry;
 import com.mouxum.api.dynamicwebfilter.registry.infrastructure.filter.Allowed;
 import com.mouxum.api.dynamicwebfilter.registry.infrastructure.filter.Filter;
@@ -29,6 +30,8 @@ public class DynamicFiltersHandlerMethodArgumentResolver implements HandlerMetho
 
 	private static final Set<String> EXCLUDED_PARAMETERS = new HashSet<>();
 
+	private final WebDelimiter webDelimiter;
+
 	private final DictionaryRegistry registry;
 
 	static final String PAGE_PARAMETER = "page";
@@ -43,9 +46,10 @@ public class DynamicFiltersHandlerMethodArgumentResolver implements HandlerMetho
 		EXCLUDED_PARAMETERS.add( SORT_PARAMETER );
 	}
 
-	public DynamicFiltersHandlerMethodArgumentResolver( DictionaryRegistry registry ) {
+	public DynamicFiltersHandlerMethodArgumentResolver( DictionaryRegistry registry, WebDelimiter webDelimiter ) {
 		super();
 		this.registry = registry;
+		this.webDelimiter = webDelimiter;
 	}
 
 	@Override
@@ -72,7 +76,7 @@ public class DynamicFiltersHandlerMethodArgumentResolver implements HandlerMetho
 		return nativeWebRequest.getParameterMap()
 			.entrySet()
 			.stream()
-			.map( entry -> new SingleValueParameterWrapper( entry.getKey(), entry.getValue() ) )
+			.map( entry -> new SingleValueParameterWrapper( entry.getKey(), entry.getValue(), webDelimiter.getFilterDelimiter(), webDelimiter.getListDelimiter() ) )
 			.filter( wrapper -> wrapper.isValid() && !EXCLUDED_PARAMETERS.contains( wrapper.field() ) )
 			.filter( wrapper -> isAllowed( methodParameter, allowed, wrapper.field() ) )
 			.map( singleValueParameterWrapper -> singleValueParameterWrapper.toFilter( allowed.resource(), registry ) )

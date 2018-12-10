@@ -22,18 +22,27 @@ import static com.mouxum.api.dynamicwebfilter.utils.DynamicUtils.cast;
  * @author Miguel Miranda
  * @since <next-version>
  */
-class SingleValueParameterWrapper {
+public class SingleValueParameterWrapper {
 
-	private static final String FILTER_DELIMITER = "__";
+	private final String filterDelimiter;
 
-	private static final String LIST_DELIMITER = ",";
+	private final String listDelimiter;
 
-	String[] data;
+	private String[] data;
 
-	String value;
+	private String value;
 
-	SingleValueParameterWrapper( String raw, String[] value ) {
-		this.data = raw.split( FILTER_DELIMITER );
+	public SingleValueParameterWrapper( String raw, String[] value ) {
+		this.filterDelimiter = "__";
+		this.listDelimiter = ",";
+		this.data = raw.split( filterDelimiter );
+		this.value = value[0];
+	}
+
+	public SingleValueParameterWrapper( String raw, String[] value, String filterDelimiter, String listDelimiter ) {
+		this.filterDelimiter = filterDelimiter;
+		this.listDelimiter = listDelimiter;
+		this.data = raw.split( filterDelimiter );
 		this.value = value[0];
 	}
 
@@ -83,7 +92,7 @@ class SingleValueParameterWrapper {
 			case IS_NULL:
 				return BooleanUtils.toBoolean( this.value );
 			case EQUALS:
-				String[] values = this.value.trim().split( LIST_DELIMITER );
+				String[] values = this.value.trim().split( listDelimiter );
 				return values.length > 1 ? Arrays.stream( values ).map( val -> cast( type, val ) ).collect( Collectors.toList() ) : cast( type, this.value );
 
 			default:
