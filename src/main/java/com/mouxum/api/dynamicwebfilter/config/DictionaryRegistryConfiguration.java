@@ -47,7 +47,7 @@ public class DictionaryRegistryConfiguration {
 	@ConditionalOnMissingBean( HandlerMethodArgumentResolver.class )
 	@ConditionalOnProperty( prefix = "dynamic.web.filters", name = "package-path" )
 	public DynamicFiltersHandlerMethodArgumentResolver dynamicFiltersHandlerMethodArgumentResolver( ResourceDictionaryRegistry resourceDictionaryRegistry ) {
-		return new DynamicFiltersHandlerMethodArgumentResolver( resourceDictionaryRegistry, null );
+		return new DynamicFiltersHandlerMethodArgumentResolver( resourceDictionaryRegistry, dynamicWebFilterProperties.getWebDelimiter() );
 	}
 
 	/**

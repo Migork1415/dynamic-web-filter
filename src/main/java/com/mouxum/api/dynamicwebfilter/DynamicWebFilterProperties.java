@@ -25,7 +25,7 @@ public class DynamicWebFilterProperties {
 	/**
 	 * The delimiter for filters on web calls , example: <ip>:<port>/<path>?something__eq=2,5,6
 	 */
-	private WebDelimiter webDelimiter;
+	private WebDelimiter webDelimiter = new WebDelimiter();
 
 	@Data
 	public class WebDelimiter{
