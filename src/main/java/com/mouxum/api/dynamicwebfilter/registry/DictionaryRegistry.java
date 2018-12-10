@@ -3,7 +3,6 @@ package com.mouxum.api.dynamicwebfilter.registry;
 import com.mouxum.api.dynamicwebfilter.registry.infrastructure.resource.QueryType;
 import com.mouxum.api.dynamicwebfilter.registry.infrastructure.resource.Resource;
 import com.mouxum.api.dynamicwebfilter.registry.infrastructure.resource.Searchable;
-import lombok.Value;
 
 import java.util.Map;
 import java.util.Optional;
@@ -34,15 +33,37 @@ public interface DictionaryRegistry {
 	 */
 	void put( Class<?> key, Map<String, DictionaryResolver> value );
 
-	@Value
 	class DictionaryResolver {
 
-		Class<?> type;
+		private final Class<?> type;
 
-		String column;
+		private final String column;
 
-		String table;
+		private final String table;
 
-		QueryType queryType;
+		private final QueryType queryType;
+
+		public DictionaryResolver( Class<?> type, String column, String table, QueryType queryType ) {
+			this.type = type;
+			this.column = column;
+			this.table = table;
+			this.queryType = queryType;
+		}
+
+		public Class<?> getType() {
+			return type;
+		}
+
+		public String getColumn() {
+			return column;
+		}
+
+		public String getTable() {
+			return table;
+		}
+
+		public QueryType getQueryType() {
+			return queryType;
+		}
 	}
 }

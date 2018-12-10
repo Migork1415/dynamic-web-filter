@@ -11,7 +11,7 @@
     <groupId>com.mouxum.api</groupId>
     <artifactId>dynamic-web-filter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <name>dynamic-web-filter</name>
     <description>Spring auto-configuration project to assist on handling the spring-rest controllers custom query inputs</description>
 
@@ -48,17 +48,22 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-data-jpa</artifactId>-->
+        <!--</dependency>-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
         </dependency>
+
 
 
         <!-- Other dependencies -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -96,6 +101,32 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <!--mvn release:prepare -Dusername=YYY -Dpassword=XXX-->
+                <!--mvn release:perform -Dusername=YYY -Dpassword=XXX-->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <goals>install</goals>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-compiler-plugin</artifactId>-->
+                <!--<version>3.6.1</version>-->
+                <!--&lt;!&ndash;<configuration>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<source>${java.version}</source>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<target>${java.version}</target>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<annotationProcessorPaths>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<path>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<groupId>org.projectlombok</groupId>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<artifactId>lombok</artifactId>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<version>${lombok.version}</version>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</path>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</annotationProcessorPaths>&ndash;&gt;-->
+                <!--&lt;!&ndash;</configuration>&ndash;&gt;-->
+            <!--</plugin>-->
         </plugins>
     </build>
 
