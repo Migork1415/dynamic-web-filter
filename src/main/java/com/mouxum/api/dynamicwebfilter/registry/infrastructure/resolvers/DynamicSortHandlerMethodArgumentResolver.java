@@ -67,7 +67,7 @@ public class DynamicSortHandlerMethodArgumentResolver extends SortHandlerMethodA
 				addConvertedOrder( allOrders, order, allowed.resource() );
 			}
 		} );
-		return allOrders.isEmpty() ? null : Sort.by( allOrders );
+		return allOrders.isEmpty() ? Sort.by( new ArrayList<>() ) : Sort.by( allOrders );
 	}
 
 	/**

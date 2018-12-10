@@ -7,10 +7,14 @@ import com.mouxum.api.dynamicwebfilter.registry.infrastructure.resolvers.Dynamic
 import com.mouxum.api.dynamicwebfilter.registry.infrastructure.resolvers.DynamicPageableHandlerMethodArgumentResolver;
 import com.mouxum.api.dynamicwebfilter.registry.infrastructure.resolvers.DynamicSortHandlerMethodArgumentResolver;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.data.web.SortHandlerMethodArgumentResolver;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
 /**
  * Auto-Configuration beans
@@ -28,8 +32,8 @@ public class DictionaryRegistryConfiguration {
 	 * @return a {@link ResourceDictionaryRegistryFactory}
 	 */
 	@Bean
-//	@ConditionalOnMissingBean( ResourceDictionaryRegistryFactory.class )
-//	@ConditionalOnProperty( prefix = "dynamic.web.filters", name = "packagePath" )
+	@ConditionalOnMissingBean( ResourceDictionaryRegistryFactory.class )
+	@ConditionalOnProperty( prefix = "dynamic.web.filters", name = "package-path" )
 	public ResourceDictionaryRegistryFactory resourceDictionaryRegistryFactory() {
 		return new ResourceDictionaryRegistryFactory( dynamicWebFilterProperties.getPackagePath() );
 	}
@@ -40,22 +44,10 @@ public class DictionaryRegistryConfiguration {
 	 * @return a {@link DynamicFiltersHandlerMethodArgumentResolver}
 	 */
 	@Bean
-//	@ConditionalOnMissingBean( HandlerMethodArgumentResolver.class )
-//	@ConditionalOnProperty( prefix = "dynamic.web.filters", name = "packagePath" )
+	@ConditionalOnMissingBean( HandlerMethodArgumentResolver.class )
+	@ConditionalOnProperty( prefix = "dynamic.web.filters", name = "package-path" )
 	public DynamicFiltersHandlerMethodArgumentResolver dynamicFiltersHandlerMethodArgumentResolver( ResourceDictionaryRegistry resourceDictionaryRegistry ) {
 		return new DynamicFiltersHandlerMethodArgumentResolver( resourceDictionaryRegistry, null );
-	}
-
-	/**
-	 * Example of path "com.hydroko.hydrosense.core"
-	 *
-	 * @return a {@link DynamicPageableHandlerMethodArgumentResolver}
-	 */
-	@Bean
-//	@ConditionalOnMissingBean( PageableHandlerMethodArgumentResolver.class )
-//	@ConditionalOnProperty( prefix = "dynamic.web.filters", name = "packagePath" )
-	public DynamicPageableHandlerMethodArgumentResolver dynamicPageableHandlerMethodArgumentResolver( SortHandlerMethodArgumentResolver sortHandlerMethodArgumentResolver ) {
-		return new DynamicPageableHandlerMethodArgumentResolver( sortHandlerMethodArgumentResolver, dynamicWebFilterProperties.getMaxPageableSize() );
 	}
 
 	/**
@@ -64,9 +56,23 @@ public class DictionaryRegistryConfiguration {
 	 * @return a {@link DynamicSortHandlerMethodArgumentResolver}
 	 */
 	@Bean
-//	@ConditionalOnMissingBean( SortHandlerMethodArgumentResolver.class )
-//	@ConditionalOnProperty( prefix = "dynamic.web.filters", name = "packagePath" )
-	public DynamicSortHandlerMethodArgumentResolver dynamicSortHandlerMethodArgumentResolver( ResourceDictionaryRegistry resourceDictionaryRegistry ) {
+	@ConditionalOnMissingBean( SortHandlerMethodArgumentResolver.class )
+	@ConditionalOnProperty( prefix = "dynamic.web.filters", name = "package-path" )
+	public SortHandlerMethodArgumentResolver dynamicSortHandlerMethodArgumentResolver( ResourceDictionaryRegistry resourceDictionaryRegistry ) {
 		return new DynamicSortHandlerMethodArgumentResolver( resourceDictionaryRegistry );
 	}
+
+	/**
+	 * Example of path "com.hydroko.hydrosense.core"
+	 *
+	 * @return a {@link DynamicPageableHandlerMethodArgumentResolver}
+	 */
+	@Bean
+	@ConditionalOnMissingBean( PageableHandlerMethodArgumentResolver.class )
+	@ConditionalOnProperty( prefix = "dynamic.web.filters", name = "package-path" )
+	public DynamicPageableHandlerMethodArgumentResolver dynamicPageableHandlerMethodArgumentResolver( SortHandlerMethodArgumentResolver sortHandlerMethodArgumentResolver ) {
+		return new DynamicPageableHandlerMethodArgumentResolver( sortHandlerMethodArgumentResolver, dynamicWebFilterProperties.getMaxPageableSize() );
+	}
+
+
 }
