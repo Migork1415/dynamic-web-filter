@@ -11,8 +11,8 @@
     <groupId>com.mouxum.api</groupId>
     <artifactId>dynamic-web-filter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
     <name>dynamic-web-filter</name>
+    <packaging>pom</packaging>
     <description>Spring auto-configuration project to assist on handling the spring-rest controllers custom query inputs</description>
 
     <properties>
