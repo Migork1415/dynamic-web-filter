@@ -23,7 +23,7 @@ public class DynamicWebFilterProperties {
 	private int maxPageableSize = 10;
 
 	/**
-	 * The delimiter for filters on web calls , example: <ip>:<port>/<path>?something__eq=2,5,6
+	 * The delimiter for filters on web calls , example: <ip>:<port>/<path>?something__equals=2,5,6
 	 */
 	private WebDelimiter webDelimiter = new WebDelimiter();
 
